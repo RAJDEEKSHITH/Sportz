@@ -18,7 +18,7 @@ matchRouter.get("/", async (req, res) => {
   if (!parsed.success) {
     return res.status(400).json({
       error: "Invalid Query",
-      details: parsed.error.flatten(),
+      details: parsed.error.issues,
     });
   }
   const limit = Math.min(parsed.data.limit ?? 50, MAX_LIMIT);
@@ -29,7 +29,7 @@ matchRouter.get("/", async (req, res) => {
       .orderBy(desc(matches.createdAt))
       .limit(limit);
     return res.json({data});
-    
+
   } catch (error) {
     return res.status(500).json({
       error: "Failed to List Matches",
@@ -47,7 +47,7 @@ matchRouter.post("/", async (req, res) => {
   if (!parsed.success) {
     return res.status(400).json({
       error: "Invalid payload",
-      details: parsed.error.flatten(),
+      details: parsed.error.issues,
     });
   }
 
